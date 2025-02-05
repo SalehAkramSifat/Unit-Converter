@@ -95,8 +95,8 @@ class MainActivity : AppCompatActivity() {
             else -> 0.0
         }
     }
-    private fun feetToMeter(feet:Double):Double = feet*0.3048
-    private fun meterKilometer (meter:Double):Double = meter
-    private fun kilogramPound (kilogram:Double):Double =
-    private fun celsiusFahrenheit (celsius:Double):Double =
+    private fun feetToMeter(feet:Double):Double = feet *0.3048
+    private fun meterKilometer (meter:Double):Double = meter / 1000
+    private fun kilogramPound (kilogram:Double):Double = kilogram * 2.20462
+    private fun celsiusFahrenheit (celsius:Double):Double = celsius * 2.20462
 }
