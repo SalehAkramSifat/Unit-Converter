@@ -1,35 +1,37 @@
 package com.sifat.unitconverter
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import android.view.ViewParent
-import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.sifat.unitconverter.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityMainBinding
+    val arrow = "\u2194"
+    private val options = listOf(
+        "Height: Feet $arrow Meter",
+        "Length: Meter ↔ Kilometer",
+        "Weight: Kilogram ↔ Pound",
+        "Temperature: Celsius ↔ Fahrenheit"
+    )
+    private val history = mutableListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val options = listOf(
-            "Height: Feet ↔ Meter",
-            "Length: Meter ↔ Kilometer",
-            "Weight: Kilogram ↔ Pound",
-            "Temperature: Celsius ↔ Fahrenheit"
-        )
-
+        // Set up spinner
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, options)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinner.adapter = adapter
 
+        // Spinner item selection listener
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedOption = parent?.getItemAtPosition(position).toString()
@@ -37,48 +39,65 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+                // Nothing to do here
             }
-
         }
+
+        // Swap button functionality
         binding.btnSwap.setOnClickListener {
             val fromUnit = binding.tvUnitFrom.text.toString()
             val toUnit = binding.tvUnitTo.text.toString()
 
+            // Swap units
             binding.tvUnitFrom.text = toUnit
             binding.tvUnitTo.text = fromUnit
 
-            val selectedUnit = "{$fromUnit} ↔ {$toUnit}"
-            updateUIForSelectedUnit(selectedUnit)
+            // Update spinner selection
+            val newSelectedUnit = options.find { it.contains("$toUnit ↔ $fromUnit") }
+            if (newSelectedUnit != null) {
+                val position = options.indexOf(newSelectedUnit)
+                binding.spinner.setSelection(position)
+            }
+
+            // Perform conversion with swapped units
+            performConversion()
         }
-        binding.etInputValue.setOnFocusChangeListener{_, _->
-            val inputValue = binding.etInputValue.text.toString().toDoubleOrNull()
-            if (inputValue != null){
-                val selectedUnit = binding.spinner.selectedItem.toString()
-                val result = convert(inputValue, selectedUnit)
-                binding.tvOutputValue.text = result.toString()
-            }else{
-                binding.tvOutputValue.text = "Invalid Input"
+
+        // Input value change listener
+        binding.etInputValue.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                performConversion()
+            }
+        })
+
+        // History button functionality
+        binding.btnHistory.setOnClickListener {
+            if (history.isEmpty()) {
+                Toast.makeText(this, "No history available", Toast.LENGTH_SHORT).show()
+            } else {
+                val historyMessage = history.joinToString("\n")
+                Toast.makeText(this, "Conversion History:\n$historyMessage", Toast.LENGTH_LONG).show()
             }
         }
     }
+
     private fun updateUIForSelectedUnit(selectedUnit: String) {
         when (selectedUnit) {
             "Height: Feet ↔ Meter" -> {
                 binding.tvUnitFrom.text = "Feet"
                 binding.tvUnitTo.text = "Meter"
             }
-
             "Length: Meter ↔ Kilometer" -> {
                 binding.tvUnitFrom.text = "Meter"
                 binding.tvUnitTo.text = "Kilometer"
             }
-
             "Weight: Kilogram ↔ Pound" -> {
                 binding.tvUnitFrom.text = "Kilogram"
                 binding.tvUnitTo.text = "Pound"
             }
-
             "Temperature: Celsius ↔ Fahrenheit" -> {
                 binding.tvUnitFrom.text = "Celsius"
                 binding.tvUnitTo.text = "Fahrenheit"
@@ -86,8 +105,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun convert (inputValue: Double, selectedUnit: String):Double{
-        return when(selectedUnit) {
+    private fun performConversion() {
+        val inputValue = binding.etInputValue.text.toString().toDoubleOrNull()
+        if (inputValue != null) {
+            val selectedUnit = binding.spinner.selectedItem.toString()
+            val result = convert(inputValue, selectedUnit)
+            binding.tvOutputValue.text = result.toString()
+
+            // Save to history
+            val fromUnit = binding.tvUnitFrom.text.toString()
+            val toUnit = binding.tvUnitTo.text.toString()
+            history.add("${inputValue} $fromUnit = ${result} $toUnit")
+        } else {
+            binding.tvOutputValue.text = "Invalid Input"
+            if (binding.etInputValue.text.toString().isNotEmpty()) {
+                Toast.makeText(this, "Please enter a valid number", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun convert(inputValue: Double, selectedUnit: String): Double {
+        return when (selectedUnit) {
             "Height: Feet ↔ Meter" -> feetToMeter(inputValue)
             "Length: Meter ↔ Kilometer" -> meterKilometer(inputValue)
             "Weight: Kilogram ↔ Pound" -> kilogramPound(inputValue)
@@ -95,8 +133,9 @@ class MainActivity : AppCompatActivity() {
             else -> 0.0
         }
     }
-    private fun feetToMeter(feet:Double):Double = feet *0.3048
-    private fun meterKilometer (meter:Double):Double = meter / 1000
-    private fun kilogramPound (kilogram:Double):Double = kilogram * 2.20462
-    private fun celsiusFahrenheit (celsius:Double):Double = celsius * 2.20462
+
+    private fun feetToMeter(feet: Double): Double = feet * 0.3048
+    private fun meterKilometer(meter: Double): Double = meter / 1000
+    private fun kilogramPound(kilogram: Double): Double = kilogram * 2.20462
+    private fun celsiusFahrenheit(celsius: Double): Double = (celsius * 9 / 5) + 32
 }
