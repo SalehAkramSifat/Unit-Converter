@@ -51,6 +51,16 @@ class MainActivity : AppCompatActivity() {
             val selectedUnit = "{$fromUnit} ↔ {$toUnit}"
             updateUIForSelectedUnit(selectedUnit)
         }
+        binding.etInputValue.setOnFocusChangeListener{_, _->
+            val inputValue = binding.etInputValue.text.toString().toDoubleOrNull()
+            if (inputValue != null){
+                val selectedUnit = binding.spinner.selectedItem.toString()
+                val result = convert(inputValue, selectedUnit)
+                binding.tvOutputValue.text = result.toString()
+            }else{
+                binding.tvOutputValue.text = "Invalid Input"
+            }
+        }
     }
     private fun updateUIForSelectedUnit(selectedUnit: String) {
         when (selectedUnit) {
@@ -76,4 +86,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun convert (inputValue: Double, selectedUnit: String):Double{
+        return when(selectedUnit) {
+            "Height: Feet ↔ Meter" -> feetToMeter(inputValue)
+            "Length: Meter ↔ Kilometer" -> meterKilometer(inputValue)
+            "Weight: Kilogram ↔ Pound" -> kilogramPound(inputValue)
+            "Temperature: Celsius ↔ Fahrenheit" -> celsiusFahrenheit(inputValue)
+            else -> 0.0
+        }
+    }
+    private fun feetToMeter(feet:Double):Double = feet*0.3048
+    private fun meterKilometer (meter:Double):Double = meter
+    private fun kilogramPound (kilogram:Double):Double =
+    private fun celsiusFahrenheit (celsius:Double):Double =
 }
