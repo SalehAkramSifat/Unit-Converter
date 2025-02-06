@@ -39,28 +39,29 @@ class MainActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, options)
         binding.spinner.adapter = adapter
 
-        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedOption = parent?.getItemAtPosition(position).toString()
                 updateUIForSelectedUnit(selectedOption)
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
         }
 
         binding.btnSwap.setOnClickListener {
             val fromUnit = binding.tvUnitFrom.text.toString()
             val toUnit = binding.tvUnitTo.text.toString()
 
-            // Swap units
             binding.tvUnitFrom.text = toUnit
             binding.tvUnitTo.text = fromUnit
 
             val newSelectedUnit = options.find { it.contains("$toUnit ↔ $fromUnit") }
-            if (newSelectedUnit != null) {
+            if (newSelectedUnit!= null){
                 val position = options.indexOf(newSelectedUnit)
                 binding.spinner.setSelection(position)
             }
-
             performConversion()
         }
 
