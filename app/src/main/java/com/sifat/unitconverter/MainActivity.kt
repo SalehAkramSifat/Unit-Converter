@@ -8,14 +8,17 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.sifat.unitconverter.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    val arrow = "\u2194"
+    lateinit var viewPager: ViewPager2
+    lateinit var pagerAdapter: ViewPagerAdapter
+
     private val options = listOf(
-        "Height: Feet $arrow Meter",
+        "Height: Feet ↔ Meter",
         "Length: Meter ↔ Kilometer",
         "Weight: Kilogram ↔ Pound",
         "Temperature: Celsius ↔ Fahrenheit"
@@ -27,23 +30,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set up spinner
+        // ViewPager2 setup
+        viewPager = binding.viewpager
+        pagerAdapter = ViewPagerAdapter()
+        viewPager.adapter = pagerAdapter
+
+        // Spinner setup
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, options)
         binding.spinner.adapter = adapter
 
-        // Spinner item selection listener
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedOption = parent?.getItemAtPosition(position).toString()
                 updateUIForSelectedUnit(selectedOption)
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Nothing to do here
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // Swap button functionality
         binding.btnSwap.setOnClickListener {
             val fromUnit = binding.tvUnitFrom.text.toString()
             val toUnit = binding.tvUnitTo.text.toString()
@@ -52,36 +55,22 @@ class MainActivity : AppCompatActivity() {
             binding.tvUnitFrom.text = toUnit
             binding.tvUnitTo.text = fromUnit
 
-            // Update spinner selection
             val newSelectedUnit = options.find { it.contains("$toUnit ↔ $fromUnit") }
             if (newSelectedUnit != null) {
                 val position = options.indexOf(newSelectedUnit)
                 binding.spinner.setSelection(position)
             }
 
-            // Perform conversion with swapped units
             performConversion()
         }
 
-        // Input value change listener
         binding.etInputValue.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
             override fun afterTextChanged(s: Editable?) {
                 performConversion()
             }
         })
-
-        // History button functionality
-        binding.btnHistory.setOnClickListener {
-            if (history.isEmpty()) {
-                Toast.makeText(this, "No history available", Toast.LENGTH_SHORT).show()
-            } else {
-                val historyMessage = history.joinToString("\n")
-                Toast.makeText(this, "Conversion History:\n$historyMessage", Toast.LENGTH_LONG).show()
-            }
-        }
     }
 
     private fun updateUIForSelectedUnit(selectedUnit: String) {
@@ -112,10 +101,9 @@ class MainActivity : AppCompatActivity() {
             val result = convert(inputValue, selectedUnit)
             binding.tvOutputValue.text = result.toString()
 
-            // Save to history
             val fromUnit = binding.tvUnitFrom.text.toString()
             val toUnit = binding.tvUnitTo.text.toString()
-            history.add("${inputValue} $fromUnit = ${result} $toUnit")
+            history.add("$inputValue $fromUnit = $result $toUnit")
         } else {
             binding.tvOutputValue.text = "Invalid Input"
             if (binding.etInputValue.text.toString().isNotEmpty()) {
