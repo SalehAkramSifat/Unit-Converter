@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu_24)
+
         // ViewPager2 setup
         viewPager = binding.viewpager
         pagerAdapter = ViewPagerAdapter()
