@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.sifat.unitconverter.databinding.ActivityMainBinding
@@ -37,7 +38,9 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu_24)
-        binding.toolbar.setNavigationItemSelectedListener {
+        binding.navView.setNavigationItemSelectedListener {MenuItem->
+            onNaigationItemSelected(MenuItem)
+            true
 
         }
 
@@ -140,6 +143,27 @@ class MainActivity : AppCompatActivity() {
     private fun celsiusFahrenheit(celsius: Double): Double = (celsius * 9 / 5) + 32
 
     private fun onNaigationItemSelected(item: MenuItem){
+        when(item.itemId){
+            R.id.about ->{
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("About")
+                    .setMessage("App Name: NoteApp\nDeveloper: Saleh Akram Sifat\nVersion: 1.0\nCopyright © Saleh Akram Sifat")
+                    .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                builder.create().show()
+            }
+            R.id.exit ->{
 
+            }
+        }
+        binding.drwareLayout.closeDrawer(binding.navView)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                binding.drwareLayout.openDrawer(binding.navView)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

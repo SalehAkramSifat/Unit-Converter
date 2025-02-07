@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
+    android:id="@+id/drwareLayout"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-
+    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
         android:layout_width="wrap_content"
@@ -16,172 +16,177 @@
         app:menu="@menu/nav_draware"
         android:layout_gravity="start"/>
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#0886FF"
-        android:elevation="4dp"
-        android:padding="12dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpager"
+    <!-- Main Layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_textview_background"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginVertical="30sp"
-        android:padding="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+        android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="@drawable/rounded_spinner_background"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/viewpager"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp" />
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#0886FF"
+            android:elevation="4dp"
+            android:padding="12dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- CardView for Conversion Section -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        app:cardBackgroundColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@id/spinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- ViewPager -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:background="@drawable/rounded_textview_background"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginVertical="30dp"
+            android:padding="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
-            <!-- From Unit, Swap Button, To Unit -->
-            <LinearLayout
-                android:id="@+id/linner"
-                android:layout_width="0dp"
+        <!-- Spinner -->
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:background="@drawable/rounded_spinner_background"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/viewpager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+
+        <!-- CardView for Conversion Section -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@id/spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3"
-                android:background="@drawable/linner_bac"
-                android:padding="10dp"
-                android:gravity="center"
-                android:paddingHorizontal="30sp"
-                android:textAlignment="center"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:padding="16dp">
 
-                <!-- From Unit -->
+                <!-- From Unit, Swap Button, To Unit -->
+                <LinearLayout
+                    android:id="@+id/linner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:background="@drawable/linner_bac"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="30dp"
+                    android:textAlignment="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <!-- From Unit -->
+                    <TextView
+                        android:id="@+id/tvUnitFrom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="Feet"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+
+                    <!-- Swap Button -->
+                    <ImageButton
+                        android:id="@+id/btnSwap"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Swap Units"
+                        android:src="@drawable/baseline_swap_horiz_24"
+                        app:tint="@color/black"
+                        android:scaleType="fitCenter"
+                        android:padding="8dp"/>
+
+                    <!-- To Unit -->
+                    <TextView
+                        android:id="@+id/tvUnitTo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Meter"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:gravity="end"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <!-- Input Field -->
+                <EditText
+                    android:id="@+id/etInputValue"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/rounded_edittext_background"
+                    android:hint="Enter Value"
+                    android:inputType="numberDecimal"
+                    android:padding="12dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#808080"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/linner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/equalSign"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <!-- Equal Sign -->
                 <TextView
-                    android:id="@+id/tvUnitFrom"
-                    android:layout_width="0dp"
+                    android:id="@+id/equalSign"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="Feet"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <!-- Swap Button -->
-                <ImageButton
-                    android:id="@+id/btnSwap"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Swap Units"
-                    android:src="@drawable/baseline_swap_horiz_24"
-                    app:tint="@color/black"
-                    android:scaleType="fitCenter"
-                    android:padding="8dp" />
-
-                <!-- To Unit -->
-                <TextView
-                    android:id="@+id/tvUnitTo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Meter"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:text="="
+                    android:textColor="#007BFF"
+                    android:textSize="24sp"
                     android:textStyle="bold"
-                    android:gravity="end"
-                    android:layout_weight="1" />
-            </LinearLayout>
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@id/linner"
+                    app:layout_constraintStart_toEndOf="@id/etInputValue"
+                    app:layout_constraintEnd_toStartOf="@id/tvOutputValue"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
 
-            <!-- Input Field -->
-            <EditText
-                android:id="@+id/etInputValue"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:background="@drawable/rounded_edittext_background"
-                android:hint="Enter Value"
-                android:inputType="numberDecimal"
-                android:padding="12dp"
-                android:textColor="#000000"
-                android:textColorHint="#808080"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/linner"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/equalSign"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp" />
-
-            <!-- Equal Sign -->
-            <TextView
-                android:id="@+id/equalSign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="="
-                android:textColor="#007BFF"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@id/linner"
-                app:layout_constraintStart_toEndOf="@id/etInputValue"
-                app:layout_constraintEnd_toStartOf="@id/tvOutputValue"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp" />
-
-            <!-- Output Field -->
-            <TextView
-                android:id="@+id/tvOutputValue"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:background="@drawable/rounded_textview_background"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="0.0"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/linner"
-                app:layout_constraintStart_toEndOf="@id/equalSign"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="8dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- Output Field -->
+                <TextView
+                    android:id="@+id/tvOutputValue"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/rounded_textview_background"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="0.0"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/linner"
+                    app:layout_constraintStart_toEndOf="@id/equalSign"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="8dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
