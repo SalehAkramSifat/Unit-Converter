@@ -3,6 +3,8 @@ package com.sifat.unitconverter
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -35,6 +37,9 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu_24)
+        binding.toolbar.setNavigationItemSelectedListener {
+
+        }
 
         // ViewPager2 setup
         viewPager = binding.viewpager
@@ -133,4 +138,8 @@ class MainActivity : AppCompatActivity() {
     private fun meterKilometer(meter: Double): Double = meter / 1000
     private fun kilogramPound(kilogram: Double): Double = kilogram * 2.20462
     private fun celsiusFahrenheit(celsius: Double): Double = (celsius * 9 / 5) + 32
+
+    private fun onNaigationItemSelected(item: MenuItem){
+
+    }
 }

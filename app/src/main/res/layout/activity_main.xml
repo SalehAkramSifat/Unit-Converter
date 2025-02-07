@@ -1,4 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5"
     tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:menu="@menu/nav_draware"
+        android:layout_gravity="start"/>
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -19,13 +28,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -182,3 +184,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
