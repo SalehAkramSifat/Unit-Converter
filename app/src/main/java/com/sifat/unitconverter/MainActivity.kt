@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         "Weight: Kilogram ↔ Pound",
         "Temperature: Celsius ↔ Fahrenheit"
     )
+
     private val history = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +31,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_menu_24)
         // ViewPager2 setup
         viewPager = binding.viewpager
         pagerAdapter = ViewPagerAdapter()
